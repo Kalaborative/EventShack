@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"conn",
+				"connect_db\tfunction"
+			],
+			[
+				"data",
+				"datafils\tstatement"
+			],
+			[
+				"url",
+				"url_for"
+			],
+			[
 				"sub",
 				"submitButton"
 			],
@@ -47,7 +59,7 @@
 			"file": "app.py",
 			"settings":
 			{
-				"buffer_size": 1847,
+				"buffer_size": 2425,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -56,16 +68,7 @@
 			"file": "templates/register.html",
 			"settings":
 			{
-				"buffer_size": 1856,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/eccomp1140-vu23/Downloads/Knight/Knight/index.html",
-			"settings":
-			{
-				"buffer_size": 20929,
+				"buffer_size": 2507,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -80,28 +83,10 @@
 			}
 		},
 		{
-			"file": "sql.py",
-			"settings":
-			{
-				"buffer_size": 427,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "templates/welcome.html",
 			"settings":
 			{
-				"buffer_size": 1369,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "templates/base.html",
-			"settings":
-			{
-				"buffer_size": 424,
+				"buffer_size": 1382,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -152,11 +137,13 @@
 	],
 	"file_history":
 	[
+		"/C/Users/eccomp1140-vu23/EventShack/templates/base.html",
+		"/C/Users/eccomp1140-vu23/EventShack/sql.py",
+		"/C/Users/eccomp1140-vu23/Downloads/Knight/Knight/index.html",
 		"/C/Users/eccomp1140-vu23/EventShackl/templates/welcome.html",
 		"/C/Users/eccomp1140-vu23/Eventshack/templates/success.html",
 		"/C/Users/eccomp1140-vu23/Downloads/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js",
 		"/C/Users/eccomp1140-vu23/EventShack/static/js/min.js",
-		"/C/Users/eccomp1140-vu23/EventShack/templates/base.html",
 		"/C/Users/eccomp1140-vu23/EventShack/static/css/min.css",
 		"/C/Users/eccomp1140-vu23/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
 		"/C/Users/eccomp1140-vu23/AppData/Roaming/Sublime Text 3/Packages/User/Anaconda.sublime-settings",
@@ -196,7 +183,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -205,15 +192,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1847,
+						"buffer_size": 2425,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1309,
-								1309
+								1179,
+								1179
 							]
 						],
 						"settings":
@@ -223,6 +210,10 @@
 								{
 									"characters": ".",
 									"selector": "source.python - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
 								},
 								{
 									"characters": ".",
@@ -237,10 +228,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 922.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -249,78 +240,20 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1856,
+						"buffer_size": 2507,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1731,
-								1735
+								1562,
+								1562
 							]
 						],
 						"settings":
 						{
 							"open_with_edit": true,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 90.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/C/Users/eccomp1140-vu23/Downloads/Knight/Knight/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 20929,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2993,
-								5180
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1188.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "templates/success.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1144,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1144,
-								1130
-							]
-						],
-						"settings":
-						{
 							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -333,101 +266,65 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "sql.py",
+					"buffer": 2,
+					"file": "templates/success.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 427,
+						"buffer_size": 1144,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								186,
-								186
+								92,
+								92
 							]
 						],
 						"settings":
 						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": ".",
-									"selector": "source.python - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								}
-							],
-							"open_with_edit": true,
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 3,
 					"file": "templates/welcome.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1369,
+						"buffer_size": 1382,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								685,
-								685
+								889,
+								889
 							]
 						],
 						"settings":
 						{
 							"_anf_new": "",
 							"history_list_is_closing": true,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 104.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "templates/base.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 424,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								74,
-								49
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]

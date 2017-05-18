@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 	<div class="jumbotron">
-		<h2>Nice to meet you!</h2>
+		<h1>Nice to meet you!</h1>
 		<p>Let's get started.</p>
 	</div>
 	<form action="" method="post" class="form-horizontal">
@@ -32,12 +32,37 @@
     </div>
     <div class="form-group">
       <div class="col-lg-10 col-lg-offset-2">
-        <button type="reset" class="btn btn-default">Reset</button>
-        <button type="submit" class="btn btn-primary" id="submitButton" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Submit</button>
+        <button type="reset" class="btn btn-default" id="resetButton">Reset</button>
+        <button type="submit" class="btn btn-primary" id="submitButton" data-toggle="popover" title="Before you submit..." data-content="Make sure everything is correct!">Submit</button>
       </div>
     </div>
 		</fieldset>	
 	</form>
+  {% if error %}
+    <div class="alert alert-dismissible alert-danger" id="warning">
+
+  <button type="button" class="close" id="closeButton">&times;</button>
+
+  <strong>Oh snap!</strong> {{ error }}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#closeButton').click(function(){
+        $('#warning').fadeOut("slow");
+      });
+    });
+
+  </script>
+  {% endif %}
+  {% if success %}
+  <div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">👍</h3>
+  </div>
+  <div class="panel-body">
+    {{ success }} Go ahead and <a href="{{ url_for('home') }}">log in.</a>
+  </div>
+</div>
+  {% endif %}
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#submitButton').mouseover(function(){

@@ -42,13 +42,16 @@ def home():
 			else:
 				error = "We don't recognize that name. Please try again."
 		if not error:
-			for n in names:
-				if request.form['password'] in n[1]:
-					error = None
-					break
-				else:
-					error = "You entered an incorrect password for that name. Please try again."	
-					return render_template('welcome.html', error=error)
+			with connect_db() as connection:
+				c = connection.cursor()
+				c.execute('select * from users')
+				fads = c.fetchall()
+				for f in fads:
+					if request.form['password'] in f[1]:
+						error = None
+						break
+					else:
+						error = "You entered an incorrect password for that name. Please try again."
 		if not error:
 			sleep(2)
 			session['logged_in'] = True
@@ -64,9 +67,21 @@ def success():
 	g.db.close()
 	return render_template('success.html', data=datafils)
 
-@app.route('/register')
+@app.route('/register', methods=["GET", "POST"])
 def register():
-	return render_template('register.html')
+	error = None
+	success = None
+	if request.method == "POST":
+		if request.form['passnew'] != request.form['passconfirm']:
+			error = "It looks like your passwords don't match. Try again!"
+		else:
+			newdata = list((request.form["usernew"].encode('utf-8'), request.form['passnew'].encode('utf-8')))
+			g.db = connect_db()
+			cur = g.db.execute('insert into users values(?, ?)', newdata)
+			g.db.commit()
+			g.db.close()
+			success = "You've signed up!"
+	return render_template('register.html', error=error, success=success)
 
 def connect_db():
 	return sqlite3.connect(app.database)

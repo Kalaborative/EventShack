@@ -12,8 +12,21 @@
 	<input type="password" name="password" placeholder="Password">
 	<input type="submit" class="btn btn-primary" value="Log Me In!" data-toggle="modal" data-target="#myModal">
 	</form>
+  <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">EventShack</h4>
+      </div>
+      <div class="modal-body">
+        <p>Logging in...</p>
+      </div>
+    </div>
+  </div>
+</div>
 	<br>
-	<p>Don't have an account? <a href="/">Register Now.</a></p>
+	<p>Don't have an account? <a href="{{ url_for('register') }}">Register Now.</a></p>
 	{% if error %}
 	<div class="alert alert-dismissible alert-danger" id="warning">
 
@@ -29,20 +42,6 @@
 
   </script>
 
-</div>
-	{% else %}
-	<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">EventShack</h4>
-      </div>
-      <div class="modal-body">
-        <p>Logging in...</p>
-      </div>
-    </div>
-  </div>
 </div>
 	{% endif %}
 {% endblock %}
