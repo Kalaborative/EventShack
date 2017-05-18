@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block head %}
+	<title>EventShack Register</title>
+<link href="static/css/slate.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+	<div class="jumbotron">
+		<h2>Nice to meet you!</h2>
+		<p>Let's get started.</p>
+	</div>
+	<form action="" method="post" class="form-horizontal">
+	<fieldset>
+	<form class="form-horizontal">
+  <fieldset>
+    <div class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label">Enter a username</label>
+      <div class="col-lg-5">
+        <input type="text" class="form-control" name="usernew" placeholder="Username">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="col-lg-2 control-label">Make a password</label>
+      <div class="col-lg-5">
+        <input type="password" class="form-control" name="passnew" placeholder="Must be at least 5 chars.">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="col-lg-2 control-label">Confirm your password:</label>
+      <div class="col-lg-5">
+        <input type="password" class="form-control" name="passconfirm" placeholder="Make sure they match!">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="reset" class="btn btn-default">Reset</button>
+        <button type="submit" class="btn btn-primary" id="submitButton" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Submit</button>
+      </div>
+    </div>
+		</fieldset>	
+	</form>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#submitButton').mouseover(function(){
+				$(this).popover('show')
+			});
+			$('#submitButton').mouseleave(function(){
+				$(this).popover('hide')
+			});
+		});
+	</script>
+{% endblock %}

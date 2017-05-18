@@ -15,11 +15,19 @@
 	<br>
 	<p>Don't have an account? <a href="/">Register Now.</a></p>
 	{% if error %}
-	<div class="alert alert-dismissible alert-danger">
+	<div class="alert alert-dismissible alert-danger" id="warning">
 
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <button type="button" class="close" id="closeButton">&times;</button>
 
   <strong>Oh snap!</strong> {{ error }}
+  <script type="text/javascript">
+  	$(document).ready(function(){
+  		$('#closeButton').click(function(){
+  			$('#warning').fadeOut("slow");
+  		});
+  	});
+
+  </script>
 
 </div>
 	{% else %}
@@ -28,7 +36,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
+        <h4 class="modal-title">EventShack</h4>
       </div>
       <div class="modal-body">
         <p>Logging in...</p>
