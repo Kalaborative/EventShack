@@ -15,6 +15,7 @@ names = {
 	"Fumucat": "nyanya123"
 }
 
+logged_in_name = []
 # login required decorator
 def login_required(f):
 	@wraps(f)
@@ -53,6 +54,8 @@ def home():
 					else:
 						error = "You entered an incorrect password for that name. Please try again."
 		if not error:
+			global logged_in_name
+			logged_in_name = request.form['username']
 			sleep(2)
 			session['logged_in'] = True
 			return redirect(url_for('success'))
@@ -61,11 +64,12 @@ def home():
 @app.route('/success')
 @login_required
 def success():
-	g.db = connect_db()
-	cur = g.db.execute('select * from users')
-	datafils = cur.fetchall()
-	g.db.close()
-	return render_template('success.html', data=datafils)
+	with sqlite3.connect('tasks.db') as connection:
+		cur = connection.cursor()
+		print logged_in_name
+		cur.execute('SELECT duties from tasks where user = (?)', [logged_in_name])
+		datafils = cur.fetchall()
+		return render_template('success.html', data=datafils)
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
