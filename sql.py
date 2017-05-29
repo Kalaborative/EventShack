@@ -1,27 +1,24 @@
 import sqlite3
 
 # format our data into a list of tuples
-names = [
-	("admin", "admin"),
-	("Natsu", "sadist"),
-	("Fumucat", "nyanya123")
-	]
+admins = [
+	("admin", "admin")]
 
-tasks = [
-	("Natsu", "game night, movie night"),
-	("Fumucat", "game night"),
-	("dylansymm", "game night, karaoke night")
-]
+orgs = ["alice", "dylan symm", "natsu", "destyn", "esm", "smol bunny", "rope bunny", "panda", "helix", "nitro", "bailey", "fumucat"]
+
+strikes = zip(orgs, [0]*len(orgs))
 
 # connect to the database and insert new values	
 with sqlite3.connect("sample.db") as connection:
 	c = connection.cursor()
+	c.execute("DROP TABLE IF EXISTS admins")
+	c.execute("DROP TABLE IF EXISTS strikes")
+	c.execute("DROP TABLE IF EXISTS orgs")
 	c.execute("DROP TABLE IF EXISTS users")
-	c.execute("""CREATE TABLE users(username TEXT, password TEXT)""")
-	c.executemany("INSERT INTO users VALUES(?, ?)", names)
-
-with sqlite3.connect('tasks.db') as connection:
-	c = connection.cursor()
-	c.execute("DROP TABLE IF EXISTS tasks")
-	c.execute("CREATE TABLE tasks(user TEXT, duties TEXT)")
-	c.executemany("INSERT INTO tasks VALUES(?, ?)", tasks)
+	c.execute("""CREATE TABLE admins(username TEXT, password TEXT)""")
+	c.execute("""CREATE TABLE strikes(username TEXT, strike INT)""")
+	c.execute("""CREATE TABLE orgs(username TEXT)""")
+	c.executemany("INSERT INTO admins VALUES(?, ?)", admins)
+	for o in orgs:
+		c.execute("INSERT INTO orgs VALUES(?)", [o])
+	c.executemany("INSERT INTO strikes VALUES(?, ?)", strikes)

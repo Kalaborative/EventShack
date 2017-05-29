@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+{% block content %}
+	<div class="jumbotron row-lg-3">
+		<h1>Strike Management System</h1>
+		<p>What would you like to do?</p>
+		<form action="" method="post" accept-charset="utf-8">
+			<input type="text" class="col-lg-3 input-lg" name="query" placeholder="type in plain English...">
+			<button type="submit" class="btn btn-primary col-lg-offset-1 btn-lg">Submit</button>
+		</form>
+	</div>
+	{% if status %}
+	<div class="panel panel-info" id="infoMsg">
+  <div class="panel-heading">
+    <h3 class="panel-title">Strike management says...</h3>
+  </div>
+  <div class="panel-body">
+    <p class="text-primary">{{ status }} </p>
+    {% if '?' in status and 'add' in status %}
+    	<a href="{{ url_for('strikeenter') }}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmAdd" id="Addconfirm">Yes</a>
+    	<a href="#" class="btn btn-primary btn-sm" id="goAway">No</a>
+    {% endif %}
+	{% if '?' in status and 'remove' in status %}
+    	<a href="{{ url_for('strikeexit') }}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmRemove" id="Removeconfirm">Yes</a>
+    	<a href="#" class="btn btn-primary btn-sm" id="goAway2">No</a>
+    {% endif %}
+  </div>
+</div>
+	{% endif %}
+<div class="modal fade" id="confirmAdd" role="dialog">
+    	<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">EventShack</h4>
+      </div>
+      <div class="modal-body">
+        <p>Adding a strike...</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="confirmRemove" role="dialog">
+    	<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">EventShack</h4>
+      </div>
+      <div class="modal-body">
+        <p>Deleting a strike...</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#goAway').click(function(){
+			$('#infoMsg').fadeOut('fast');
+		});
+		$('#goAway2').click(function(){
+			$('#infoMsg').fadeOut('fast');
+		});
+		$('#Addconfirm').click(function(){
+			$('#infoMsg').fadeOut('fast');
+		});
+		$('#Removeconfirm').click(function(){
+			$('#infoMsg').fadeOut('fast');
+		});
+	});
+</script>
+{% endblock %}

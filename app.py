@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, url_for, redirect, session, f
 from time import sleep
 from functools import wraps
 import sqlite3
+from random import choice
+from textprocess import grabber
 
 # create the application object
 app = Flask(__name__)
@@ -15,7 +17,10 @@ names = {
 	"Fumucat": "nyanya123"
 }
 
+greetings = ["Hello", "Hi there", "Welcome", "Good to see you", "Hey", "Long time no see", "Heya", "Sup"]
+
 logged_in_name = []
+grabbed = []
 # login required decorator
 def login_required(f):
 	@wraps(f)
@@ -33,7 +38,7 @@ def home():
 	error = None
 	if request.method == "POST":
 		g.db = connect_db()
-		cur = g.db.execute('select * from users')
+		cur = g.db.execute('select * from admins')
 		names = cur.fetchall()
 		g.db.close()
 		for n in names:
@@ -45,7 +50,7 @@ def home():
 		if not error:
 			with connect_db() as connection:
 				c = connection.cursor()
-				c.execute('select * from users')
+				c.execute('select * from admins')
 				fads = c.fetchall()
 				for f in fads:
 					if request.form['password'] in f[1]:
@@ -64,12 +69,12 @@ def home():
 @app.route('/success')
 @login_required
 def success():
-	with sqlite3.connect('tasks.db') as connection:
+	with sqlite3.connect('sample.db') as connection:
 		cur = connection.cursor()
-		print logged_in_name
-		cur.execute('SELECT duties from tasks where user = (?)', [logged_in_name])
+		cur.execute('SELECT * FROM orgs')
 		datafils = cur.fetchall()
-		return render_template('success.html', data=datafils)
+		greet = choice(greetings)
+		return render_template('success.html', data=datafils, greet=greet, login_name=logged_in_name)
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -81,7 +86,7 @@ def register():
 		else:
 			newdata = list((request.form["usernew"].encode('utf-8'), request.form['passnew'].encode('utf-8')))
 			g.db = connect_db()
-			cur = g.db.execute('insert into users values(?, ?)', newdata)
+			cur = g.db.execute('insert into admins values(?, ?)', newdata)
 			g.db.commit()
 			g.db.close()
 			success = "You've signed up!"
@@ -89,6 +94,30 @@ def register():
 
 def connect_db():
 	return sqlite3.connect(app.database)
+
+@app.route('/strikes', methods=["GET", "POST"])
+def strikes():
+	status = None
+	if request.method == "POST":
+		global grabbed
+		grabbed = grabber(request.form['query'])
+		status = grabbed[0]
+	return render_template('strikes.html', status=status)
+
+@app.route("/strikeenter")
+def strikeenter():
+	with sqlite3.connect('sample.db') as connection:
+		c = connection.cursor()
+		c.execute("UPDATE strikes SET strike = strike + 1 WHERE username=?", [grabbed[1]])
+		return render_template("strikesuccess.html")
+
+@app.route("/strikeexit")
+def strikeexit():
+	with sqlite3.connect('sample.db') as connection:
+		c = connection.cursor()
+		c.execute("UPDATE strikes SET strike = strike - 1 WHERE username=?", [grabbed[1]])
+		return render_template("strikesuccess.html")
+
 
 if __name__ == "__main__":
 	app.run(debug=True)
