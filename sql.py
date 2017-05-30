@@ -16,9 +16,11 @@ with sqlite3.connect("sample.db") as connection:
 	c.execute("DROP TABLE IF EXISTS strikes")
 	c.execute("DROP TABLE IF EXISTS orgs")
 	c.execute("DROP TABLE IF EXISTS users")
+	c.execute("DROP TABLE IF EXISTS logs")
 	c.execute("""CREATE TABLE admins(username TEXT, password TEXT)""")
 	c.execute("""CREATE TABLE strikes(username TEXT, strike INT)""")
 	c.execute("""CREATE TABLE orgs(username TEXT)""")
+	c.execute("""CREATE TABLE logs(admin TEXT, action TEXT, org TEXT)""")
 	c.executemany("INSERT INTO admins VALUES(?, ?)", admins)
 	for o in orgs:
 		c.execute("INSERT INTO orgs VALUES(?)", [o])

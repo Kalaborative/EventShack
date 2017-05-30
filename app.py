@@ -18,6 +18,8 @@ greetings = ["Hello", "Hi there", "Welcome", "Good to see you", "Hey", "Long tim
 logged_in_name = []
 # Grabber text is saved to a global variable
 grabbed = []
+# Keep an action log to log all administrative events.
+action_log = []
 
 # login required decorator
 def login_required(f):
@@ -109,6 +111,9 @@ def strikeenter():
 	with sqlite3.connect('sample.db') as connection:
 		c = connection.cursor()
 		c.execute("UPDATE strikes SET strike = strike + 1 WHERE username=?", [grabbed[1]])
+		global action_log
+		action_log = [(logged_in_name, "gave a strike to ", grabbed[1])]
+		c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		return render_template("strikesuccess.html")
 
 # Text when removing a strike
@@ -117,7 +122,19 @@ def strikeexit():
 	with sqlite3.connect('sample.db') as connection:
 		c = connection.cursor()
 		c.execute("UPDATE strikes SET strike = strike - 1 WHERE username=?", [grabbed[1]])
+		global action_log
+		action_log = [(logged_in_name, "removed a strike from ", grabbed[1])]
+		c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		return render_template("strikesuccess.html")
+
+# Route for logging information
+@app.route("/logs")
+def logs():
+	with sqlite3.connect('sample.db') as connection:
+		c = connection.cursor()
+		c.execute("SELECT * FROM logs")
+		cers = c.fetchall()
+		return render_template("notes.html", cers=cers)
 
 # Run the application
 if __name__ == "__main__":
