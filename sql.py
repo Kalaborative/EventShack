@@ -6,6 +6,7 @@ admins = [
 
 orgs = ["alice", "dylan symm", "natsu", "destyn", "esm", "smol bunny", "rope bunny", "panda", "helix", "nitro", "bailey", "fumucat"]
 
+# Use zip function to give every org a strike value of zero.
 strikes = zip(orgs, [0]*len(orgs))
 
 # connect to the database and insert new values	

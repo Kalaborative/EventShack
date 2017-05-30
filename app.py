@@ -11,16 +11,14 @@ app = Flask(__name__)
 app.secret_key = "my precious"
 app.database = "sample.db"
 
-names = {
-	"admin": "admin",
-	"Natsu": "sadist",
-	"Fumucat": "nyanya123"
-}
-
+# List of random greetings to greet the user when they login.
 greetings = ["Hello", "Hi there", "Welcome", "Good to see you", "Hey", "Long time no see", "Heya", "Sup"]
 
+# When logged in, user will be saved to global variable
 logged_in_name = []
+# Grabber text is saved to a global variable
 grabbed = []
+
 # login required decorator
 def login_required(f):
 	@wraps(f)
@@ -32,7 +30,8 @@ def login_required(f):
 			return redirect(url_for('home'))
 	return wrap
 
-# use decorators to link the function to a URL
+# use decorators to link the function to a URL.
+# main route
 @app.route('/', methods=["GET", "POST"])
 def home():
 	error = None
@@ -66,16 +65,14 @@ def home():
 			return redirect(url_for('success'))
 	return render_template('welcome.html', error=error)
 
+# Welcome page when the user logs in
 @app.route('/success')
 @login_required
 def success():
-	with sqlite3.connect('sample.db') as connection:
-		cur = connection.cursor()
-		cur.execute('SELECT * FROM orgs')
-		datafils = cur.fetchall()
-		greet = choice(greetings)
-		return render_template('success.html', data=datafils, greet=greet, login_name=logged_in_name)
+	greet = choice(greetings)
+	return render_template('success.html', greet=greet, login_name=logged_in_name)
 
+# Registration page
 @app.route('/register', methods=["GET", "POST"])
 def register():
 	error = None
@@ -92,9 +89,11 @@ def register():
 			success = "You've signed up!"
 	return render_template('register.html', error=error, success=success)
 
+# Function to connect to the app's database
 def connect_db():
 	return sqlite3.connect(app.database)
 
+# Strike managament system webpage
 @app.route('/strikes', methods=["GET", "POST"])
 def strikes():
 	status = None
@@ -104,6 +103,7 @@ def strikes():
 		status = grabbed[0]
 	return render_template('strikes.html', status=status)
 
+# Text when adding a strike
 @app.route("/strikeenter")
 def strikeenter():
 	with sqlite3.connect('sample.db') as connection:
@@ -111,6 +111,7 @@ def strikeenter():
 		c.execute("UPDATE strikes SET strike = strike + 1 WHERE username=?", [grabbed[1]])
 		return render_template("strikesuccess.html")
 
+# Text when removing a strike
 @app.route("/strikeexit")
 def strikeexit():
 	with sqlite3.connect('sample.db') as connection:
@@ -118,6 +119,6 @@ def strikeexit():
 		c.execute("UPDATE strikes SET strike = strike - 1 WHERE username=?", [grabbed[1]])
 		return render_template("strikesuccess.html")
 
-
+# Run the application
 if __name__ == "__main__":
 	app.run(debug=True)
