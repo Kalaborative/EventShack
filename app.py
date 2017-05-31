@@ -136,6 +136,40 @@ def logs():
 		cers = c.fetchall()
 		return render_template("notes.html", cers=cers)
 
+# Webpage to manage promotion and demotion of organizers, as well as adding new ones
+@app.route("/manager", methods=["GET", "POST"])
+def manager():
+	response = None
+	if request.method == "POST":
+		updateOrg = request.form['orgName']
+		if request.form['actionSelected'] == "Promote" and updateOrg != "Select one...":
+			with sqlite3.connect('sample.db') as connection:
+				c = connection.cursor()
+				c.execute("UPDATE orgs SET role='Senior Organizer' WHERE username=?", [updateOrg])
+		elif request.form['actionSelected'] == "Demote" and updateOrg != "Select one...":
+			with sqlite3.connect('sample.db') as connection:
+				c = connection.cursor()
+				c.execute("SELECT role from orgs WHERE username=?", [updateOrg])
+				contestedRole = c.fetchone()
+				if contestedRole[0] == "Senior Organizer":
+					c.execute("UPDATE orgs SET role='organizer' where username=?", [updateOrg])
+				else:
+					c.execute("DELETE FROM orgs WHERE username=?", [updateOrg])
+		elif updateOrg == "Select one..." and request.form['actionSelected'] == "Select one..." and request.form['NewOrg']:
+			print request.form['NewOrg']
+			with sqlite3.connect("sample.db") as connection:
+				c = connection.cursor()
+				NewOrgData = [(request.form["NewOrg"], "organizer")]
+				c.executemany("INSERT INTO orgs VALUES(?, ?)", NewOrgData)
+		response = "Successfully performed the action."
+	with sqlite3.connect("sample.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * from orgs")
+		fetchlist = []
+		orgroles = c.fetchall()
+		for orgs in orgroles:
+			fetchlist.append(orgs[0])
+		return render_template("manager.html", fetched=fetchlist, orglist=orgroles, response=response)
 # Run the application
 if __name__ == "__main__":
 	app.run(debug=True)
