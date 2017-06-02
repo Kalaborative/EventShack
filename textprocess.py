@@ -1,10 +1,12 @@
 def grabber(query):
 	addwords = ["add", "new", "put", "insert", "on", "give"]
 	removewords = ["remove", "subtract", "take", "off", "delete"]
+	quantitywords = ["much", "many", "number"]
 	orgs = ["alice", "dylan symm", "natsu", "destyn", "esm", "smol bunny", "rope bunny", "panda", "helix", "nitro", "bailey", "fumucat"]
 	addattempt = False
 	removeattempt = False
 	orgattempt = False
+	quantattempt = False
 	orgid = []
 	queryL = query.lower()
 	words = queryL.split()
@@ -20,6 +22,8 @@ def grabber(query):
 			addattempt = True
 		elif word in removewords:
 			removeattempt = True
+		elif word in quantitywords:
+			quantattempt = True
 		else:
 			for o in orgs:
 				if word in o:
@@ -37,7 +41,11 @@ def grabber(query):
 		return ["It looks like you want to remove a strike from %s. Is this correct?" % orgid[0].capitalize(), orgid[0]]
 	elif removeattempt and orgattempt and len(orgid) > 1:
 		return ["It looks like you want to remove a strike to more than one person. Is this correct?", [o for o in orgid]]
-	elif orgattempt and not addattempt and not removeattempt:
+	elif orgattempt and not addattempt and not removeattempt and not quantattempt:
 		return ["It looks like you're trying to edit info for %s but the action could not be understood." % orgid[0].capitalize()]
+	elif quantattempt and not orgattempt:
+		return ["It looks like you're trying to see how many strikes someone has, but I cannot identify that organizer."]
+	elif quantattempt and orgattempt:
+		return ["It looks like you want to see how many strikes %s has. Is this correct?" % orgid[0].capitalize(), orgid[0]]
 	else:
 		return ["I could not understand you."]
