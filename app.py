@@ -127,6 +127,18 @@ def strikeexit():
 		c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		return render_template("strikesuccess.html")
 
+# Text when viewing amount of strikes
+@app.route("/strikeview")
+def strikeview():
+	with sqlite3.connect('sample.db') as connection:
+		c = connection.cursor()
+		c.execute("SELECT strike FROM  strikes WHERE username=?", [grabbed[1]])
+		result = [c.fetchone()[0], grabbed[1]]
+		global action_log
+		action_log = [(logged_in_name, "viewed total amount of strikes on ", grabbed[1])]
+		c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
+		return render_template('strikesuccess.html', strikeNumber=result)
+
 # Route for logging information
 @app.route("/logs")
 def logs():

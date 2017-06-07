@@ -3,5 +3,9 @@
 	{{ super() }}
 {% endblock %}
 {% block content %}
-	<p class="text-success"> Action complete. </p>
+	{% if strikeNumber%}
+		<p class="text-info">Currently {{ strikeNumber[1] }} has {{ strikeNumber[0] }} strikes. </p>
+	{% else %}
+		<p class="text-success"> Action complete. </p>
+	{% endif %}
 {% endblock %}
