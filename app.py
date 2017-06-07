@@ -139,6 +139,7 @@ def logs():
 # Webpage to manage promotion and demotion of organizers, as well as adding new ones
 @app.route("/manager", methods=["GET", "POST"])
 def manager():
+	global action_log
 	response = None
 	if request.method == "POST":
 		updateOrg = request.form['orgName']
@@ -146,6 +147,8 @@ def manager():
 			with sqlite3.connect('sample.db') as connection:
 				c = connection.cursor()
 				c.execute("UPDATE orgs SET role='Senior Organizer' WHERE username=?", [updateOrg])
+				action_log = [(logged_in_name, "gave a promotion of Senior Organizer to ", updateOrg)]
+				c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		elif request.form['actionSelected'] == "Demote" and updateOrg != "Select one...":
 			with sqlite3.connect('sample.db') as connection:
 				c = connection.cursor()
@@ -153,14 +156,20 @@ def manager():
 				contestedRole = c.fetchone()
 				if contestedRole[0] == "Senior Organizer":
 					c.execute("UPDATE orgs SET role='organizer' where username=?", [updateOrg])
+					action_log = [(logged_in_name, "has given a demotion of Senior Organizer to ", updateOrg)]
+					c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 				else:
 					c.execute("DELETE FROM orgs WHERE username=?", [updateOrg])
+					action_log = [(logged_in_name, "has demoted and deleted ", updateOrg)]
+					c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		elif updateOrg == "Select one..." and request.form['actionSelected'] == "Select one..." and request.form['NewOrg']:
-			print request.form['NewOrg']
+			Orgnew = request.form['NewOrg']
 			with sqlite3.connect("sample.db") as connection:
 				c = connection.cursor()
-				NewOrgData = [(request.form["NewOrg"], "organizer")]
+				NewOrgData = [(Orgnew, "organizer")]
 				c.executemany("INSERT INTO orgs VALUES(?, ?)", NewOrgData)
+				action_log = [(logged_in_name, "has made a new organizer role for ", Orgnew)]
+				c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		response = "Successfully performed the action."
 	with sqlite3.connect("sample.db") as connection:
 		c = connection.cursor()

@@ -1,7 +1,14 @@
+import sqlite3
 def grabber(query):
 	addwords = ["add", "new", "put", "insert", "on", "give"]
 	removewords = ["remove", "subtract", "take", "off", "delete"]
-	orgs = ["alice", "dylan symm", "natsu", "destyn", "esm", "smol bunny", "rope bunny", "panda", "helix", "nitro", "bailey", "fumucat"]
+	with sqlite3.connect("sample.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT username from orgs")
+		orgs = []
+		orgroles = c.fetchall()
+		for o in orgroles:
+			orgs.append(o[0].lower())
 	addattempt = False
 	removeattempt = False
 	orgattempt = False
