@@ -161,7 +161,6 @@ def manager():
 				c.execute("UPDATE orgs SET role='Senior Organizer' WHERE username=?", [updateOrg])
 				action_log = [(logged_in_name, "gave a promotion of Senior Organizer to ", updateOrg)]
  				c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
-				c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		elif request.form['actionSelected'] == "Demote" and updateOrg != "Select one...":
 			with sqlite3.connect('sample.db') as connection:
 				c = connection.cursor()
@@ -174,7 +173,6 @@ def manager():
 				else:
 					c.execute("DELETE FROM orgs WHERE username=?", [updateOrg])
 					action_log = [(logged_in_name, "has demoted and deleted ", updateOrg)]
-
  					c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		elif updateOrg == "Select one..." and request.form['actionSelected'] == "Select one..." and request.form['NewOrg']:
 			OrgNew = request.form['NewOrg']
@@ -184,8 +182,6 @@ def manager():
 				c.executemany("INSERT INTO orgs VALUES(?, ?)", NewOrgData)
 				action_log = [(logged_in_name, "has made a new organizer role for ", Orgnew)]
  				c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
-
-					c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
 		elif updateOrg == "Select one..." and request.form['actionSelected'] == "Select one..." and request.form['NewOrg']:
 			Orgnew = request.form['NewOrg']
 			with sqlite3.connect("sample.db") as connection:
@@ -194,7 +190,6 @@ def manager():
 				c.executemany("INSERT INTO orgs VALUES(?, ?)", NewOrgData)
 				action_log = [(logged_in_name, "has made a new organizer role for ", Orgnew)]
 				c.executemany("INSERT INTO logs VALUES(?, ?, ?)", action_log)
-
 		response = "Successfully performed the action."
 	with sqlite3.connect("sample.db") as connection:
 		c = connection.cursor()

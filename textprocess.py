@@ -1,3 +1,4 @@
+import sqlite3
 def grabber(query):
 	addwords = ["add", "new", "put", "insert", "on", "give"]
 	removewords = ["remove", "subtract", "take", "off", "delete"]
