@@ -5,6 +5,7 @@ from functools import wraps
 import sqlite3
 from random import choice
 from textprocess import grabber
+from flask_login import login_required, LoginManager, login_user
 
 # create the application object
 app = Flask(__name__)
@@ -21,16 +22,18 @@ grabbed = []
 # Keep an action log to log all administrative events.
 action_log = []
 
+login_manager = LoginManager()
+login_manager.init_app(app)
 # login required decorator
-def login_required(f):
-	@wraps(f)
-	def wrap(*args, **kwargs):
-		if 'logged_in' in session:
-			return f(*args, **kwargs)
-		else:
-			flash('You need to login first.')
-			return redirect(url_for('home'))
-	return wrap
+# def login_required(f):
+	# @wraps(f)
+	# def wrap(*args, **kwargs):
+		# if 'logged_in' in session:
+			# return f(*args, **kwargs)
+		# else:
+			# flash('You need to login first.')
+			# return redirect(url_for('home'))
+	# return wrap
 
 # use decorators to link the function to a URL.
 # main route
@@ -43,7 +46,7 @@ def home():
 		names = cur.fetchall()
 		g.db.close()
 		for n in names:
-			if request.form['username'] in n[0]:
+			if request.form['username'] in n[0] and len(request.form['username']) > 0:
 				error = None
 				break
 			else:
@@ -64,6 +67,7 @@ def home():
 			logged_in_name = request.form['username']
 			sleep(2)
 			session['logged_in'] = True
+			login_user(logged_in_name)
 			return redirect(url_for('success'))
 	return render_template('welcome.html', error=error)
 
@@ -140,13 +144,23 @@ def strikeview():
 		return render_template('strikesuccess.html', strikeNumber=result)
 
 # Route for logging information
-@app.route("/logs")
+@app.route("/logs", methods=["GET", "POST"])
 def logs():
+	if request.method == "POST":
+		with sqlite3.connect('sample.db') as connection:
+			c = connection.cursor()
+			newName = logged_in_name
+			newMessage = request.form["newNote"]
+			noteData = [(newName, newMessage)]
+			c.executemany("INSERT INTO notes VALUES(?, ?)", noteData)
 	with sqlite3.connect('sample.db') as connection:
 		c = connection.cursor()
 		c.execute("SELECT * FROM logs")
 		cers = c.fetchall()
-		return render_template("notes.html", cers=cers)
+		c2 = connection.cursor()
+		c2.execute("SELECT * FROM notes")
+		cers2 = c2.fetchall()
+		return render_template("notes.html", cers=cers, cers2=cers2)
 
 # Webpage to manage promotion and demotion of organizers, as well as adding new ones
 @app.route("/manager", methods=["GET", "POST"])

@@ -10,18 +10,19 @@ orgs = ["alice", "dylan symm", "natsu", "destyn", "esm", "smol bunny", "rope bun
 strikes = zip(orgs, [0]*len(orgs))
 roles = zip(orgs, ["organizer"]*len(orgs))
 
-# connect to the database and insert new values	
+# connect to the database and insert new values
 with sqlite3.connect("sample.db") as connection:
 	c = connection.cursor()
 	c.execute("DROP TABLE IF EXISTS admins")
 	c.execute("DROP TABLE IF EXISTS strikes")
 	c.execute("DROP TABLE IF EXISTS orgs")
-	c.execute("DROP TABLE IF EXISTS users")
 	c.execute("DROP TABLE IF EXISTS logs")
+	c.execute("DROP TABLE IF EXISTS notes")
 	c.execute("""CREATE TABLE admins(username TEXT, password TEXT)""")
 	c.execute("""CREATE TABLE strikes(username TEXT, strike INT)""")
 	c.execute("""CREATE TABLE orgs(username TEXT, role TEXT)""")
 	c.execute("""CREATE TABLE logs(admin TEXT, action TEXT, org TEXT)""")
+	c.execute("""CREATE TABLE notes(name TEXT, msg TEXT)""")
 	c.executemany("INSERT INTO admins VALUES(?, ?)", admins)
 	c.executemany("INSERT INTO orgs VALUES(?, ?)", roles)
 	c.executemany("INSERT INTO strikes VALUES(?, ?)", strikes)
