@@ -5,7 +5,6 @@ from functools import wraps
 import sqlite3
 from random import choice
 from textprocess import grabber
-from flask_login import login_required, LoginManager, login_user
 
 # create the application object
 app = Flask(__name__)
@@ -22,18 +21,15 @@ grabbed = []
 # Keep an action log to log all administrative events.
 action_log = []
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+
 # login required decorator
-# def login_required(f):
-	# @wraps(f)
-	# def wrap(*args, **kwargs):
-		# if 'logged_in' in session:
-			# return f(*args, **kwargs)
-		# else:
-			# flash('You need to login first.')
-			# return redirect(url_for('home'))
-	# return wrap
+def login_required(f):
+	@wraps(f)
+	def wrap(*args, **kwargs):
+		if not session['logged_in']:
+			return redirect(url_for('home'))
+		return f(*args, **kwargs)
+	return wrap
 
 # use decorators to link the function to a URL.
 # main route
@@ -65,9 +61,9 @@ def home():
 		if not error:
 			global logged_in_name
 			logged_in_name = request.form['username']
+			print logged_in_name + " successfully logged in!"
 			sleep(2)
 			session['logged_in'] = True
-			login_user(logged_in_name)
 			return redirect(url_for('success'))
 	return render_template('welcome.html', error=error)
 
@@ -213,6 +209,16 @@ def manager():
 		for orgs in orgroles:
 			fetchlist.append(orgs[0])
 		return render_template("manager.html", fetched=fetchlist, orglist=orgroles, response=response)
+
+@app.route("/logout")
+def logout():
+	session['logged_in'] = False
+	return redirect(url_for('home'))
+
+@app.route("/testpage")
+def test():
+	return render_template("login.html")
+
 # Run the application
 if __name__ == "__main__":
 	app.run(debug=True)
