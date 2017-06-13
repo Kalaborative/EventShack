@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sample Login</title>
+    <link rel="stylesheet" href="static/css/min.css">
+    <link rel="stylesheet" href="static/css/login.css">
+    <script src="static/js/login.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{{ url_for('success') }}">Dashboard</a>
+      </div>
+  		<ul class="nav navbar-nav">
+  			<li><a href="{{ url_for('test') }}">Click here to try the New Login page!</a></li>
+  		</ul>
+  		<ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+        </ul>
+    </div>
+  </nav>
+<div class="overlay">
+<!-- LOGN IN FORM by Omar Dsoky -->
+<form>
+   <!--   con = Container  for items in the form-->
+   <div class="con">
+   <!--     Start  header Content  -->
+   <header class="head-form">
+      <h2>Log In</h2>
+      <!--     A welcome message or an explanation of the login form -->
+      <p>Love Shack Administration only!</p>
+   </header>
+   <!--     End  header Content  -->
+   <br>
+   <div class="field-set">
+
+      <!--   user name -->
+        <!--   user name Input-->
+        <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+         <input class="form-input" id="txt-input" type="text" placeholder="@UserName" required>
+       </div>
+      <br>
+
+           <!--   Password -->
+      <!--   Password Input-->
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+        <input class="form-input" type="password" placeholder="Password" id="pwd"  name="password" required>
+      </div>
+    <br>
+   </div>
+
+<!--   other buttons -->
+   <div class="other">
+<!--      Forgot Password button-->
+      <button class="btn submits log-in">Login</button>
+<!--     Sign Up button -->
+
+<br>
+      <a class="btn sign-up" href="{{ url_for('register') }}">Sign Up
+<!--         Sign Up font icon -->
+      <span class="glyphicon glyphicon-ok"></span>
+    </a>
+<!--      End Other the Division -->
+   </div>
+
+<!--   End Container  -->
+  </div>
+
+  <!-- End Form -->
+</form>
+</div>
+</body>
+</html>
