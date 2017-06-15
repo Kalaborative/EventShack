@@ -26,46 +26,19 @@ action_log = []
 def login_required(f):
 	@wraps(f)
 	def wrap(*args, **kwargs):
-		if not session['logged_in']:
+		try:
+			if not session['logged_in']:
+				return redirect(url_for('home'))
+		except KeyError:
 			return redirect(url_for('home'))
 		return f(*args, **kwargs)
 	return wrap
 
 # use decorators to link the function to a URL.
 # main route
-@app.route('/', methods=["GET", "POST"])
+@app.route('/')
 def home():
-	error = None
-	if request.method == "POST":
-		g.db = connect_db()
-		cur = g.db.execute('select * from admins')
-		names = cur.fetchall()
-		g.db.close()
-		for n in names:
-			if request.form['username'] in n[0] and len(request.form['username']) > 0:
-				error = None
-				break
-			else:
-				error = "We don't recognize that name. Please try again."
-		if not error:
-			with connect_db() as connection:
-				c = connection.cursor()
-				c.execute('select * from admins')
-				fads = c.fetchall()
-				for f in fads:
-					if request.form['password'] in f[1]:
-						error = None
-						break
-					else:
-						error = "You entered an incorrect password for that name. Please try again."
-		if not error:
-			global logged_in_name
-			logged_in_name = request.form['username']
-			print logged_in_name + " successfully logged in!"
-			sleep(2)
-			session['logged_in'] = True
-			return redirect(url_for('success'))
-	return render_template('welcome.html', error=error)
+	return render_template("newhome.html")
 
 # Welcome page when the user logs in
 @app.route('/success')
@@ -213,11 +186,44 @@ def manager():
 @app.route("/logout")
 def logout():
 	session['logged_in'] = False
-	return redirect(url_for('home'))
+	return redirect(url_for('login'))
 
-@app.route("/testpage")
-def test():
-	return render_template("login.html")
+@app.route("/login", methods=["GET", "POST"])
+def login():
+	error = None
+	if request.method == "POST":
+		g.db = connect_db()
+		cur = g.db.execute('select * from admins')
+		names = cur.fetchall()
+		g.db.close()
+		for n in names:
+			if request.form['username'] in n[0] and len(request.form['username']) > 0:
+				error = None
+				break
+			else:
+				error = "We don't recognize that name. Please try again."
+		if not error:
+			with connect_db() as connection:
+				c = connection.cursor()
+				c.execute('select * from admins')
+				fads = c.fetchall()
+				for f in fads:
+					if request.form['password'] in f[1]:
+						error = None
+						break
+					else:
+						error = "You entered an incorrect password for that name. Please try again."
+		if not error:
+			global logged_in_name
+			logged_in_name = request.form['username']
+			sleep(2)
+			session['logged_in'] = True
+			return redirect(url_for('success'))
+	return render_template("login.html", error=error)
+
+@app.route("/testhome")
+def testhome():
+	return render_template("newhome.html")
 
 # Run the application
 if __name__ == "__main__":

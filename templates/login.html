@@ -2,28 +2,18 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Sample Login</title>
+    <title>Login</title>
     <link rel="stylesheet" href="static/css/min.css">
     <link rel="stylesheet" href="static/css/login.css">
     <script src="static/js/login.js"></script>
+    <script src="static/js/spin.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="{{ url_for('success') }}">Dashboard</a>
-      </div>
-  		<ul class="nav navbar-nav">
-  			<li><a href="{{ url_for('test') }}">Click here to try the New Login page!</a></li>
-  		</ul>
-  		<ul class="nav navbar-nav navbar-right">
-          <li><a href="{{ url_for('home') }}">Home</a></li>
-        </ul>
-    </div>
-  </nav>
-<div class="overlay">
+<div class="overlay" id="mainLogin">
 <!-- LOGN IN FORM by Omar Dsoky -->
-<form>
+<form action="" method="post">
    <!--   con = Container  for items in the form-->
    <div class="con">
    <!--     Start  header Content  -->
@@ -40,7 +30,7 @@
         <!--   user name Input-->
         <div class="input-group">
         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
-         <input class="form-input" id="txt-input" type="text" placeholder="@UserName" required>
+         <input class="form-input" id="txt-input" type="text" placeholder="@UserName" name="username" required>
        </div>
       <br>
 
@@ -56,9 +46,8 @@
 <!--   other buttons -->
    <div class="other">
 <!--      Forgot Password button-->
-      <button class="btn submits log-in">Login</button>
+      <button class="btn submits log-in" data-toggle="modal" data-target="#myModal" id="login">Login</button>
 <!--     Sign Up button -->
-
 <br>
       <a class="btn sign-up" href="{{ url_for('register') }}">Sign Up
 <!--         Sign Up font icon -->
@@ -66,12 +55,68 @@
     </a>
 <!--      End Other the Division -->
    </div>
-
 <!--   End Container  -->
   </div>
+  {% if error %}
+  <div class="alert alert-dismissible alert-danger" id="warning">
+  <strong>Oh snap!</strong> {{ error }}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#warning').click(function(){
+        $('#warning').fadeOut("slow");
+      });
+    });
 
+  </script>
+
+  </div>
+  {% endif %}
   <!-- End Form -->
 </form>
+<div class="modal fade" id="myModal" role="dialog">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">EventShack</h4>
+    </div>
+    <div class="modal-body">
+      <p>Logging in...</p>
+    </div>
+  </div>
 </div>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#login").click(function(){
+    var opts = {
+      lines: 9 // The number of lines to draw
+    , length: 0 // The length of each line
+    , width: 10 // The line thickness
+    , radius: 49 // The radius of the inner circle
+    , scale: 1 // Scales overall size of the spinner
+    , corners: 1 // Corner roundness (0..1)
+    , color: '#000' // #rgb or #rrggbb or array of colors
+    , opacity: 0.15 // Opacity of the lines
+    , rotate: 12 // The rotation offset
+    , direction: 1 // 1: clockwise, -1: counterclockwise
+    , speed: 1.3 // Rounds per second
+    , trail: 87 // Afterglow percentage
+    , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+    , zIndex: 2e9 // The z-index (defaults to 2000000000)
+    , className: 'spinner' // The CSS class to assign to the spinner
+    , top: '50%' // Top position relative to parent
+    , left: '50%' // Left position relative to parent
+    , shadow: false // Whether to render a shadow
+    , hwaccel: false // Whether to use hardware acceleration
+    , position: 'absolute' // Element positioning
+    }
+    var target = document.getElementById('mainLogin')
+    var spinner = new Spinner(opts).spin(target);
+  });
+});
+</script>
+
 </body>
 </html>
