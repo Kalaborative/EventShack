@@ -1,18 +1,18 @@
-# Test file when testing things out in Python
+# Flask app.py
 from flask import Flask
-from flask import Flask, flash, redirect, render_template, request, session, abort
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.secret_key = "cookies"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://samp:asdf@localhost/mydb"
+db = SQLAlchemy(app)
 
-@app.route('/', methods=["GET", "POST"])
-def home():
-    if request.method == "POST":
-        if request.form['password'] == 'password' and request.form['username'] == 'admin':
-            session['logged_in'] = True
-        else:
-            flash('wrong password!')
-    return render_template("login.html")
+class Admins (db.Model):
+    __tablename__ = "admins"
+    id = db.Column('id', db.Integer, primary_key=True)
+    username = db.Column('username', db.String)
+    password = db.Column('password', db.String)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    def __init__(self, username, password):
+    	self.username = username
+    	self.password = password
+
