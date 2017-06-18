@@ -4,6 +4,7 @@ from time import sleep
 from functools import wraps
 import sqlite3
 from random import choice
+from os import environ
 from textprocess import grabber
 
 # create the application object
@@ -227,4 +228,5 @@ def testhome():
 
 # Run the application
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', debug=True)
+	port = int(environ.get("PORT", 5000))
+	app.run(host='0.0.0.0', port=port, debug=True)
