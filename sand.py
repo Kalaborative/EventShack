@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://samp:asdf@localhost/mydb"
 db = SQLAlchemy(app)
+# Adding pointless text
 
 class Admins (db.Model):
     __tablename__ = "admins"
